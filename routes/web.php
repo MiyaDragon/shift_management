@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ShiftController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,9 +32,22 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->middleware(['auth:admin'])->name('dashboard');
-
     require __DIR__ . '/admin.php';
+
+    Route::middleware(['auth:admin'])->group(function () {
+
+        // ダッシュボード
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
+
+        // シフト管理
+        Route::prefix('shift')->name('shift.')->controller(ShiftController::class)->group(function () {
+            Route::get('/deployment', 'showDeployment')->name('deployment');
+            Route::post('/deployment', 'deployment');
+            Route::get('/attendance_request', 'showAttendanceRequest')->name('attendance_request');
+            Route::post('/attendance_request', 'attendanceRequest');
+        });
+        Route::resource('shift', ShiftController::class);
+    });
 });
