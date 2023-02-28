@@ -44,4 +44,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * リレーション（出勤日）
+     *
+     * @return HasMany
+     */
+    public function workdays()
+    {
+        return $this->hasMany(Workday::class);
+    }
 }
