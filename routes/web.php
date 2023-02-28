@@ -37,17 +37,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth:admin'])->group(function () {
 
         // ダッシュボード
-        Route::get('/dashboard', function () {
+        Route::get('/', function () {
             return view('admin.dashboard');
-        })->name('dashboard');
+        });
 
         // シフト管理
         Route::prefix('shift')->name('shift.')->controller(ShiftController::class)->group(function () {
+            Route::put('/update', 'update');
+            Route::get('/export/{shift}', 'export')->name('export');
             Route::get('/deployment', 'showDeployment')->name('deployment');
             Route::post('/deployment', 'deployment');
             Route::get('/attendance_request', 'showAttendanceRequest')->name('attendance_request');
             Route::post('/attendance_request', 'attendanceRequest');
         });
-        Route::resource('shift', ShiftController::class);
+        Route::resource('shift', ShiftController::class)->except('update', 'destory');
     });
 });

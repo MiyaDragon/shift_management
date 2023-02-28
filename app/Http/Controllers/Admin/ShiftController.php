@@ -2,86 +2,103 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\WorkdaysExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreShiftRequest;
+use App\Models\Shift;
+use App\Models\Workday;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Carbon\CarbonPeriod;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ShiftController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * シフト管理画面
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function index()
     {
-        return view('admin.shifts.index');
+        $period_day = CarbonPeriod::create(Carbon::today()->startOfMonth(), Carbon::today()->endOfMonth());
+
+        return view('admin.shifts.index', compact('period_day'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * シフト詳細画面
      *
-     * @return \Illuminate\Http\Response
+     * @param Shift $shift
+     * @return View
+     */
+    public function show(Shift $shift)
+    {
+        $period_day = CarbonPeriod::create(Carbon::parse($shift->year_month)->startOfMonth(), Carbon::parse($shift->year_month)->endOfMonth());
+
+        return view('admin.shifts.index', compact('shift', 'period_day'));
+    }
+
+    /**
+     * シフト作成画面
+     *
+     * @return View
      */
     public function create()
     {
-        //
+        return view('admin.shifts.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * シフト作成処理画面
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreShiftRequest $request
+     * @return Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreShiftRequest $request)
     {
-        //
+        $shift = Shift::create($request->validated());
+
+        return to_route('admin.shift.show', compact('shift'));
     }
 
     /**
-     * Display the specified resource.
+     * シフト編集画面
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Shift $shift
+     * @return View
      */
-    public function show($id)
+    public function edit(Shift $shift)
     {
-        //
+        $period_day = CarbonPeriod::create(Carbon::parse($shift->year_month)->startOfMonth(), Carbon::parse($shift->year_month)->endOfMonth());
+
+        return view('admin.shifts.index', compact('shift', 'period_day'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * シフト更新処理
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
      */
-    public function edit($id)
+    public function update(Request $request)
     {
-        return view('admin.shifts.edit', compact('id'));
+        $id = $request->id;
+
+        $shift_pattern_id = $request->shift_pattern_id;
+
+        Workday::findOrFail($id)->update(['shift_pattern_id' => $shift_pattern_id]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * シフト表エクスポート
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Shift $shift
+     * @return void
      */
-    public function update(Request $request, $id)
+    public function export(Shift $shift)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return Excel::download(new WorkdaysExport($shift), 'shifts.xlsx');
     }
 
     /**
@@ -101,7 +118,9 @@ class ShiftController extends Controller
      */
     public function deployment()
     {
-        //
+        // 該当月シフトのメールを送る
+
+        // 該当月確定シフトをユーザーページに表示させる
     }
 
     /**
