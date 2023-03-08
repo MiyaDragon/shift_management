@@ -17,7 +17,6 @@ class ShiftTest extends TestCase
 
     private AdminUser $admin_user;
     private Shift $shift;
-    private ShiftPattern $shift_pattern;
 
     /**
      * テストデータ作成

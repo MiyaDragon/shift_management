@@ -307,6 +307,11 @@ return [
             'url'  => 'admin/shift',
             'icon' => 'fas fa-fw fa-calendar-alt',
         ],
+        [
+            'text' => '管理者管理',
+            'url'  => 'admin/admin_user',
+            'icon' => 'fas fa-fw fa-user-tie',
+        ],
     ],
 
     /*

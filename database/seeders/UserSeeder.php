@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'name' => '山田 花子',
             'email' => 'yamada@hanako.com',
             'email_verified_at' => now(),
-            'telephone_number' => '080-1234-5678',
+            'telephone_number' => '08012345678',
             'password' => Hash::make('password'),
             'prescribed' => 5 // 所定5
         ]);
