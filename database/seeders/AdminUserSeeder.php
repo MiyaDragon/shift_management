@@ -19,7 +19,7 @@ class AdminUserSeeder extends Seeder
         AdminUser::create([
             'name' => '管理者 太郎',
             'email' => 'admin@admin.com',
-            'telephone_number' => '090-1234-5678',
+            'telephone_number' => '09012345678',
             'password' => Hash::make('password'),
         ]);
 

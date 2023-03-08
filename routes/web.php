@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\ShiftController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -51,5 +52,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/attendance_request', 'attendanceRequest');
         });
         Route::resource('shift', ShiftController::class)->except('update', 'destory');
+
+        // 管理者管理
+        Route::resource('admin_user', AdminUserController::class);
     });
 });
