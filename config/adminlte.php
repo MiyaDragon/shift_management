@@ -312,6 +312,11 @@ return [
             'url'  => 'admin/admin_user',
             'icon' => 'fas fa-fw fa-user-tie',
         ],
+        [
+            'text' => 'ユーザー管理',
+            'url'  => 'admin/user',
+            'icon' => 'fas fa-fw fa-duotone fa-users',
+        ],
     ],
 
     /*

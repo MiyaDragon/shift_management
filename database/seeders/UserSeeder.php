@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
+            'position_id' => 1, // SV
             'name' => '山田 花子',
             'email' => 'yamada@hanako.com',
             'email_verified_at' => now(),
@@ -25,6 +26,10 @@ class UserSeeder extends Seeder
             'prescribed' => 5 // 所定5
         ]);
 
-        User::factory(9)->create();
+        User::factory(9)->create(
+            [
+                'position_id' => 2, // OP
+            ]
+        );
     }
 }
