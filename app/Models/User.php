@@ -19,6 +19,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'position_id',
         'name',
         'email',
         'telephone_number',
@@ -44,6 +45,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * リレーション（役職）
+     *
+     * @return BelongsTo
+     */
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
 
     /**
      * リレーション（出勤日）

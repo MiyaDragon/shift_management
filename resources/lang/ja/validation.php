@@ -158,6 +158,8 @@ return [
         'email' => 'メールアドレス',
         'telephone_number' => '電話番号',
         'password' => 'パスワード',
+        'prescribed' => '所定',
+        'position_id' => '役職',
     ],
 
 ];

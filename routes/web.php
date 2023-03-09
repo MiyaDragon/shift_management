@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\ShiftController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('shift', ShiftController::class)->except('update', 'destory');
 
         // 管理者管理
-        Route::resource('admin_user', AdminUserController::class);
+        Route::resource('admin_user', AdminUserController::class)->except('show');
+
+        // ユーザー管理
+        Route::resource('user', UserController::class)->except('show');
     });
 });
